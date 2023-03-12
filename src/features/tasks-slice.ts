@@ -1,4 +1,5 @@
 import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
+import { removeUser } from "./users-slice";
 
 export type TasksState = {
   entities: Task[];
@@ -27,6 +28,16 @@ const tasksSlice = createSlice({
       state.entities.splice(index, 1);
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(removeUser, (state, action) => {
+      const userId = action.payload;
+      for (const task of state.entities) {
+        if (task.user === userId) {
+          task.user = undefined
+        }
+      }
+    });
+  }
 });
 
 export const tasksReducer = tasksSlice.reducer;
