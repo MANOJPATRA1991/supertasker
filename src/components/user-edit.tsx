@@ -1,4 +1,6 @@
 import { ChangeEventHandler } from 'react';
+import { editUser } from '../features/users-slice';
+import { useAppDispatch } from '../hooks';
 
 type UserEditProps = {
   user: User;
@@ -6,10 +8,11 @@ type UserEditProps = {
 
 const UserEdit = ({ user }: UserEditProps) => {
   const id = (p: keyof User) => `edit-user-${user.id}-${p}`;
+  const dispatch = useAppDispatch();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
-    console.log('Put an action here to create a user. 😝', { name, value });
+    dispatch(editUser({ id: user.id, [name]: value }));
   };
 
   return (
